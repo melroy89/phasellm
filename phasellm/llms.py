@@ -29,7 +29,7 @@ variable_pattern = r'\{\s*[a-zA-Z0-9_]+\s*\}'
 variable_regex = re.compile(variable_pattern)
 
 STOP_TOKEN = "<|END|>"
-
+NEWLINE_TOKEN = "<|NEWLINE|>"
 
 class Message(TypedDict):
     """
@@ -93,6 +93,7 @@ def _format_sse(content: str) -> str:
     """
     Returns the string that indicates that the response should be formatted as an SSE.
     """
+    content = re.sub("\n", NEWLINE_TOKEN, content)
     return f"data: {content}\n\n"
 
 
